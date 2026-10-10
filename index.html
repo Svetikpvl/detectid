@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IT-Детектив: Спасение Цифрового Города</title>
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --panel-bg: #131c2e;
+            --border-color: #1e293b;
+            --accent-green: #10b981;
+            --accent-blue: #3b82f6;
+            --accent-purple: #8b5cf6;
+            --accent-yellow: #f59e0b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --danger: #ef4444;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        .container {
+            background-color: var(--panel-bg);
+            border: 2px solid var(--border-color);
+            padding: 35px;
+            border-radius: 16px;
+            width: 700px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+
+        h2 {
+            color: var(--accent-blue);
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        p, li {
+            line-height: 1.6;
+            color: var(--text-main);
+        }
+
+        .text-muted {
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px 15px;
+            background: #090d16;
+            border: 2px solid var(--border-color);
+            color: #fff;
+            font-size: 18px;
+            margin: 15px 0;
+            border-radius: 8px;
+            box-sizing: border-box;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus {
+            border-color: var(--accent-blue);
+        }
+
+        .btn {
+            background-color: var(--accent-green);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 8px;
+            width: 100%;
+            transition: transform 0.1s, background-color 0.2s;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn:hover {
+            background-color: #059669;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: var(--accent-blue);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+        .btn-secondary:hover {
+            background-color: #2563eb;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .error {
+            color: var(--danger);
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .success-msg {
+            color: var(--accent-green);
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .hint-box {
+            background: rgba(59, 130, 246, 0.1);
+            border-left: 4px solid var(--accent-blue);
+            padding: 12px;
+            margin-top: 20px;
+            border-radius: 0 8px 8px 0;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        /* Интерактивные элементы для детей 7-9 лет */
+        .cipher-display {
+            background: #090d16;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 26px;
+            letter-spacing: 4px;
+            color: var(--accent-yellow);
+            border: 2px dashed var(--border-color);
+            margin: 15px 0;
+            font-family: monospace;
+        }
+
+        .branch-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .branch-card {
+            background: #1e293b;
+            border: 2px solid var(--border-color);
+            padding: 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        .branch-card:hover {
+            border-color: var(--accent-purple);
+            transform: scale(1.02);
+            background: #27354f;
+        }
+
+        /* Пасхалка / Скрытый элемент для этапа 4 */
+        .desktop-screen {
+            background: #0f172a;
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            height: 220px;
+            position: relative;
+            margin: 15px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .desktop-icon {
+            position: absolute;
+            cursor: pointer;
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-muted);
+            padding: 10px;
+            border-radius: 6px;
+            transition: background 0.2s;
+        }
+        .desktop-icon:hover {
+            background: rgba(255,255,255,0.05);
+            color: #fff;
+        }
+        .desktop-icon span { font-size: 28px; display: block; margin-bottom: 4px; }
+
+        /* Секретный баг-элемент */
+        #secret-bug {
+            position: absolute;
+            bottom: 15px;
+            right: 25px;
+            cursor: pointer;
+            background: rgba(239, 68, 68, 0.2);
+            border: 1px dashed var(--danger);
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            color: var(--danger);
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1.01); }
+        }
+
+        .progress-bar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 25px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+        .step-dot {
+            font-size: 13px;
+            color: var(--text-muted);
+            font-weight: bold;
+        }
+        .step-dot.active {
+            color: var(--accent-blue);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Шапка прогресса -->
+    <div class="progress-bar" id="progress-bar">
+        <span class="step-dot active" id="dot-1">1. Авторизация</span>
+        <span class="step-dot" id="dot-2">2. Шифр</span>
+        <span class="step-dot" id="dot-3">3. Ветвление</span>
+        <span class="step-dot" id="dot-4">4. Безопасность</span>
+        <span class="step-dot" id="dot-5">5. Поиск бага</span>
+    </div>
+
+    <!-- СТАРТ: Ввод имени -->
+    <div id="step-0" class="step">
+        <h2>🕵️‍♂️ БАЗА ДЕТЕКТИВОВ: ВХОД В СИСТЕМУ</h2>
+        <p>Привет, юный IT-агент! Вирус «ХакерОк» заблокировал виртуальный город. Чтобы начать операцию по спасению, назови свое секретное имя агента:</p>
+        <input type="text" id="username" placeholder="Твое имя или позывной...">
+        <button class="btn" onclick="startQuest()">Начать расследование 🚀</button>
+        <div id="error-0" class="error"></div>
+    </div>
+
+    <!-- ЭТАП 1: Шифр (Шифр Цезаря со сдвигом +1) -->
+    <div id="step-1" class="step hidden">
+        <h2>🔐 ЭТАП 1: Секретное послание</h2>
+        <p>Взломанный робот оставил зашифрованное слово. Каждая буква смещена на 1 вперед по алфавиту (буква <b>С</b> означает, что в оригинале была буква <b>Р</b>).</p>
+        <div class="cipher-display">С П В Й Л</div>
+        <p class="text-muted" style="text-align: center;">Расшифруй слово (сдвинь каждую букву назад на 1 шаг)</p>
+        <input type="text" id="answer-1" placeholder="Введи расшифрованное слово русскими буквами">
+        <button class="btn btn-secondary" onclick="checkStep1()">Проверить шифр ✨</button>
+        <div id="error-1" class="error"></div>
+        <div class="hint-box">💡 <b>Подсказка:</b> Получилось слово из 6 букв, обозначающее верного товарища! (Подсказка: С...Р)</div>
+    </div>
+
+    <!-- ЭТАП 2: Ветвление (Логика IF / ELSE) -->
+    <div id="step-2" class="step hidden">
+        <h2>🔀 ЭТАП 2: Лабиринт ветвлений (If / Else)</h2>
+        <p>Чтобы пройти через защитный лазерный барьер, твой робот должен сделать правильный выбор. Помоги ему с помощью логики ветвления:</p>
+        <p><b>Условие:</b> <i>Если (Батарея > 50% И Горит зеленый свет), то...</i></p>
+        
+        <div class="branch-grid">
+            <div class="branch-card" onclick="chooseBranch(false)">
+                ❌ <b>ШАГ ВЛЕВО</b><br><span class="text-muted">Отключить систему питания</span>
+            </div>
+            <div class="branch-card" onclick="chooseBranch(true)">
+                ✔️ <b>ШАГ ВПЕРЕД</b><br><span class="text-muted">Пройсть сквозь защитное поле</span>
+            </div>
+        </div>
+        <div id="error-2" class="error" style="text-align: center;"></div>
+    </div>
+
+    <!-- ЭТАП 3: Информационная безопасность (Пароли) -->
+    <div id="step-3" class="step hidden">
+        <h2>🛡️ ЭТАП 3: Создай надежный пароль</h2>
+        <p>Хакер пытается угадать пароль от хранилища данных. Тебе нужно придумать по-настоящему <b>надежный пароль</b>, который состоит из букв, цифр и символов.</p>
+        <p class="text-muted">Требование: пароль должен содержать не менее 6 символов и цифру!</p>
+        <input type="text" id="answer-3" placeholder="Придумай крутой пароль (например: 12345 — не подойдет!)">
+        <button class="btn btn-secondary" onclick="checkStep3()">Установить пароль 🔒</button>
+        <div id="error-3" class="error"></div>
+        <div class="hint-box">💡 <b>Подсказка:</b> Используй буквы и хотя бы одну цифру</div>
+    </div>
+
+    <!-- ЭТАП 4: Поиск скрытого бага в интерфейсе (Интерактив) -->
+    <div id="step-4" class="step hidden">
+        <h2>💻 ЭТАП 4: Поиск цифрового жучка</h2>
+        <p>Вирус прячется в одном из файлов на рабочем столе зараженного компьютера. Внимательно осмотри экран и найди зараженный элемент!</p>
+        
+        <div class="desktop-screen">
+            <div class="desktop-icon" style="top: 20px; left: 30px;">
+                <span>📁</span>Документы
+            </div>
+            <div class="desktop-icon" style="top: 20px; left: 140px;">
+                <span>🎮</span>Игра.exe
+            </div>
+            <div class="desktop-icon" style="top: 100px; left: 80px;" onclick="wrongBugClick()">
+                <span>🖼️</span>Фото.png
+            </div>
+            <!-- Скрытый баг-жучок -->
+            <div id="secret-bug" onclick="checkStep4()">
+                🐛 ВИРУС-ЖУЧОК! (Кликни меня)
+            </div>
+        </div>
+        <div id="error-4" class="error" style="text-align: center;"></div>
+        <div class="text-muted" style="text-align: center;">Ищи мигающий красный объект внизу справа!</div>
+    </div>
+
+    <!-- ФИНИШ -->
+    <div id="step-5" class="step hidden" style="text-align: center;">
+        <h2>🎉 МИССИЯ УСПЕШНО ВЫПОЛНЕНА!</h2>
+        <p>Ты блестяще справился со всеми заданиями: расшифровал шифр, настроил ветвление, защитил систему паролем и поймал цифрового жучка!</p>
+        <div class="success-msg" style="font-size: 20px; margin: 20px 0;">Твой результат отправлен в штаб академии 🏆</div>
+        <p class="text-muted">Можешь гордиться собой, ты настоящий IT-детектив!</p>
+    </div>
+</div>
+
+<script>
+    // ⚠️ ЗАМЕНИТЕ ЭТУ СТРОКУ НА URL ВАШЕГО GOOGLE WEB APP СКРИПТА:
+    const GOOGLE_SCRIPT_URL = "ЗДЕСЬ_БУДЕТ_ВАШ_URL_ИЗ_APPS_SCRIPT";
+
+    let userName = "";
+    let startTime;
+    let currentStepNum = 0;
+
+    function updateProgress(stepNum) {
+        currentStepNum = stepNum;
+        for (let i = 0; i <= 5; i++) {
+            const dot = document.getElementById("dot-" + i);
+            if (dot) {
+                if (i <= stepNum) {
+                    dot.classList.add("active");
+                } else {
+                    dot.classList.remove("active");
+                }
+            }
+        }
+    }
+
+    function sendStats(stepName) {
+        if (GOOGLE_SCRIPT_URL.includes("ЗДЕСЬ_БУДЕТ")) return;
+        
+        const elapsedTime = Math.floor((new Date() - startTime) / 1000);
+        const data = {
+            name: userName,
+            step: stepName,
+            time: elapsedTime + " сек"
+        };
+
+        fetch(GOOGLE_SCRIPT_URL, {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data)
+        }).catch(err => console.log(err));
+    }
+
+    function startQuest() {
+        const input = document.getElementById("username");
+        userName = input.value.trim();
+        if (userName === "") {
+            document.getElementById("error-0").textContent = "Пожалуйста, введите имя агента!";
+            return;
+        }
+        startTime = new Date();
+        
+        document.getElementById("step-0").classList.add("hidden");
+        document.getElementById("step-1").classList.remove("hidden");
+        updateProgress(1);
+        sendStats("Этап 1: Старт (Шифр)");
+    }
+
+    // Этап 1: Шифр ("ДРУЖОК" со сдвигом -> "ГОСТИК" или заменяем на более простое или принимаем "ГРУЖОК")
+    // В условии написано: Д->Г, Р->П, У->Т, Ж->Ё, О->Н, К->И => получается слово "ГРУЖОК"
+    function checkStep1() {
+        const val = document.getElementById("answer-1").value.trim().toUpperCase();
+        const err = document.getElementById("error-1");
+        
+        if (val === "РОБИК") {
+            err.textContent = "";
+            document.getElementById("step-1").classList.add("hidden");
+            document.getElementById("step-2").classList.remove("hidden");
+            updateProgress(2);
+            sendStats("Этап 2: Ветвление");
+        } else {
+            err.textContent = "Неверно! Попробуй сдвинуть каждую букву алфавита на шаг назад.";
+        }
+    }
+
+    // Этап 2: Ветвление
+    function chooseBranch(isCorrect) {
+        const err = document.getElementById("error-2");
+        if (isCorrect) {
+            err.textContent = "";
+            document.getElementById("step-2").classList.add("hidden");
+            document.getElementById("step-3").classList.remove("hidden");
+            updateProgress(3);
+            sendStats("Этап 3: Безопасность (Пароли)");
+        } else {
+            err.textContent = "Ошибка робота! Условие батареи и зеленого света ведет в другое место. Попробуй другой путь.";
+        }
+    }
+
+    // Этап 3: Пароль (минимум 6 символов, есть хотя бы одна цифра)
+    function checkStep3() {
+        const val = document.getElementById("answer-3").value.trim();
+        const err = document.getElementById("error-3");
+        
+        const hasNumber = /\d/.test(val);
+        const longEnough = val.length >= 6;
+        
+        if (longEnough && hasNumber) {
+            err.textContent = "";
+            document.getElementById("step-3").classList.add("hidden");
+            document.getElementById("step-4").classList.remove("hidden");
+            updateProgress(4);
+            sendStats("Этап 4: Поиск бага");
+        } else {
+            err.textContent = "Пароль слишком простой или короткий! Сделай длину от 6 символов и добавь хотя бы одну цифру.";
+        }
+    }
+
+    // Этап 4: Клик не туда
+    function wrongBugClick() {
+        document.getElementById("error-4").textContent = "Здесь чисто! Ищи жучка в правом нижнем углу экрана.";
+    }
+
+    // Этап 4: Победа (клик по жучку)
+    function checkStep4() {
+        document.getElementById("step-4").classList.add("hidden");
+        document.getElementById("step-5").classList.remove("hidden");
+        updateProgress(5);
+        sendStats("ФИНИШ (Победа!)");
+    }
+</script>
+
+</body>
+</html>
