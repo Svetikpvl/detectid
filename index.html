@@ -3,449 +3,501 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IT-Детектив: Спасение Цифрового Города</title>
-    <style>
-        :root {
-            --bg-color: #0b0f19;
-            --panel-bg: #131c2e;
-            --border-color: #1e293b;
-            --accent-green: #10b981;
-            --accent-blue: #3b82f6;
-            --accent-purple: #8b5cf6;
-            --accent-yellow: #f59e0b;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --danger: #ef4444;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            overflow-x: hidden;
-        }
-
-        .container {
-            background-color: var(--panel-bg);
-            border: 2px solid var(--border-color);
-            padding: 35px;
-            border-radius: 16px;
-            width: 700px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            position: relative;
-        }
-
-        h2 {
-            color: var(--accent-blue);
-            margin-top: 0;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        p, li {
-            line-height: 1.6;
-            color: var(--text-main);
-        }
-
-        .text-muted {
-            color: var(--text-muted);
-            font-size: 14px;
-        }
-
-        input[type="text"] {
-            width: 100%;
-            padding: 12px 15px;
-            background: #090d16;
-            border: 2px solid var(--border-color);
-            color: #fff;
-            font-size: 18px;
-            margin: 15px 0;
-            border-radius: 8px;
-            box-sizing: border-box;
-            outline: none;
-            transition: border-color 0.3s;
-        }
-
-        input[type="text"]:focus {
-            border-color: var(--accent-blue);
-        }
-
-        .btn {
-            background-color: var(--accent-green);
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            border-radius: 8px;
-            width: 100%;
-            transition: transform 0.1s, background-color 0.2s;
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
-        }
-
-        .btn:hover {
-            background-color: #059669;
-            transform: translateY(-2px);
-        }
-
-        .btn-secondary {
-            background-color: var(--accent-blue);
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
-        }
-        .btn-secondary:hover {
-            background-color: #2563eb;
-        }
-
-        .hidden {
-            display: none !important;
-        }
-
-        .error {
-            color: var(--danger);
-            margin-top: 10px;
-            font-weight: bold;
-        }
-
-        .success-msg {
-            color: var(--accent-green);
-            margin-top: 10px;
-            font-weight: bold;
-        }
-
-        .hint-box {
-            background: rgba(59, 130, 246, 0.1);
-            border-left: 4px solid var(--accent-blue);
-            padding: 12px;
-            margin-top: 20px;
-            border-radius: 0 8px 8px 0;
-            font-size: 14px;
-            color: var(--text-muted);
-        }
-
-        /* Интерактивные элементы для детей 7-9 лет */
-        .cipher-display {
-            background: #090d16;
-            padding: 20px;
-            border-radius: 8px;
-            text-align: center;
-            font-size: 26px;
-            letter-spacing: 4px;
-            color: var(--accent-yellow);
-            border: 2px dashed var(--border-color);
-            margin: 15px 0;
-            font-family: monospace;
-        }
-
-        .branch-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin: 20px 0;
-        }
-
-        .branch-card {
-            background: #1e293b;
-            border: 2px solid var(--border-color);
-            padding: 15px;
-            border-radius: 10px;
-            cursor: pointer;
-            text-align: center;
-            transition: all 0.2s;
-        }
-
-        .branch-card:hover {
-            border-color: var(--accent-purple);
-            transform: scale(1.02);
-            background: #27354f;
-        }
-
-        /* Пасхалка / Скрытый элемент для этапа 4 */
-        .desktop-screen {
-            background: #0f172a;
-            border: 2px solid var(--border-color);
-            border-radius: 10px;
-            height: 220px;
-            position: relative;
-            margin: 15px 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-        }
-
-        .desktop-icon {
-            position: absolute;
-            cursor: pointer;
-            text-align: center;
-            font-size: 12px;
-            color: var(--text-muted);
-            padding: 10px;
-            border-radius: 6px;
-            transition: background 0.2s;
-        }
-        .desktop-icon:hover {
-            background: rgba(255,255,255,0.05);
-            color: #fff;
-        }
-        .desktop-icon span { font-size: 28px; display: block; margin-bottom: 4px; }
-
-        /* Секретный баг-элемент */
-        #secret-bug {
-            position: absolute;
-            bottom: 15px;
-            right: 25px;
-            cursor: pointer;
-            background: rgba(239, 68, 68, 0.2);
-            border: 1px dashed var(--danger);
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-size: 13px;
-            color: var(--danger);
-            animation: pulse 1.5s infinite;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1.01); }
-        }
-
-        .progress-bar {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 25px;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 10px;
-        }
-        .step-dot {
-            font-size: 13px;
-            color: var(--text-muted);
-            font-weight: bold;
-        }
-        .step-dot.active {
-            color: var(--accent-blue);
-        }
-    </style>
-</head>
-<body>
-
-<div class="container">
-    <!-- Шапка прогресса -->
-    <div class="progress-bar" id="progress-bar">
-        <span class="step-dot active" id="dot-1">1. Авторизация</span>
-        <span class="step-dot" id="dot-2">2. Шифр</span>
-        <span class="step-dot" id="dot-3">3. Ветвление</span>
-        <span class="step-dot" id="dot-4">4. Безопасность</span>
-        <span class="step-dot" id="dot-5">5. Поиск бага</span>
-    </div>
-
-    <!-- СТАРТ: Ввод имени -->
-    <div id="step-0" class="step">
-        <h2>🕵️‍♂️ БАЗА ДЕТЕКТИВОВ: ВХОД В СИСТЕМУ</h2>
-        <p>Привет, юный IT-агент! Вирус «ХакерОк» заблокировал виртуальный город. Чтобы начать операцию по спасению, назови свое секретное имя агента:</p>
-        <input type="text" id="username" placeholder="Твое имя или позывной...">
-        <button class="btn" onclick="startQuest()">Начать расследование 🚀</button>
-        <div id="error-0" class="error"></div>
-    </div>
-
-    <!-- ЭТАП 1: Шифр (Шифр Цезаря со сдвигом +1) -->
-    <div id="step-1" class="step hidden">
-        <h2>🔐 ЭТАП 1: Секретное послание</h2>
-        <p>Взломанный робот оставил зашифрованное слово. Каждая буква смещена на 1 вперед по алфавиту (буква <b>С</b> означает, что в оригинале была буква <b>Р</b>).</p>
-        <div class="cipher-display">С П В Й Л</div>
-        <p class="text-muted" style="text-align: center;">Расшифруй слово (сдвинь каждую букву назад на 1 шаг)</p>
-        <input type="text" id="answer-1" placeholder="Введи расшифрованное слово русскими буквами">
-        <button class="btn btn-secondary" onclick="checkStep1()">Проверить шифр ✨</button>
-        <div id="error-1" class="error"></div>
-        <div class="hint-box">💡 <b>Подсказка:</b> Получилось слово из 6 букв, обозначающее верного товарища! (Подсказка: С...Р)</div>
-    </div>
-
-    <!-- ЭТАП 2: Ветвление (Логика IF / ELSE) -->
-    <div id="step-2" class="step hidden">
-        <h2>🔀 ЭТАП 2: Лабиринт ветвлений (If / Else)</h2>
-        <p>Чтобы пройти через защитный лазерный барьер, твой робот должен сделать правильный выбор. Помоги ему с помощью логики ветвления:</p>
-        <p><b>Условие:</b> <i>Если (Батарея > 50% И Горит зеленый свет), то...</i></p>
-        
-        <div class="branch-grid">
-            <div class="branch-card" onclick="chooseBranch(false)">
-                ❌ <b>ШАГ ВЛЕВО</b><br><span class="text-muted">Отключить систему питания</span>
-            </div>
-            <div class="branch-card" onclick="chooseBranch(true)">
-                ✔️ <b>ШАГ ВПЕРЕД</b><br><span class="text-muted">Пройсть сквозь защитное поле</span>
-            </div>
-        </div>
-        <div id="error-2" class="error" style="text-align: center;"></div>
-    </div>
-
-    <!-- ЭТАП 3: Информационная безопасность (Пароли) -->
-    <div id="step-3" class="step hidden">
-        <h2>🛡️ ЭТАП 3: Создай надежный пароль</h2>
-        <p>Хакер пытается угадать пароль от хранилища данных. Тебе нужно придумать по-настоящему <b>надежный пароль</b>, который состоит из букв, цифр и символов.</p>
-        <p class="text-muted">Требование: пароль должен содержать не менее 6 символов и цифру!</p>
-        <input type="text" id="answer-3" placeholder="Придумай крутой пароль (например: 12345 — не подойдет!)">
-        <button class="btn btn-secondary" onclick="checkStep3()">Установить пароль 🔒</button>
-        <div id="error-3" class="error"></div>
-        <div class="hint-box">💡 <b>Подсказка:</b> Используй буквы и хотя бы одну цифру</div>
-    </div>
-
-    <!-- ЭТАП 4: Поиск скрытого бага в интерфейсе (Интерактив) -->
-    <div id="step-4" class="step hidden">
-        <h2>💻 ЭТАП 4: Поиск цифрового жучка</h2>
-        <p>Вирус прячется в одном из файлов на рабочем столе зараженного компьютера. Внимательно осмотри экран и найди зараженный элемент!</p>
-        
-        <div class="desktop-screen">
-            <div class="desktop-icon" style="top: 20px; left: 30px;">
-                <span>📁</span>Документы
-            </div>
-            <div class="desktop-icon" style="top: 20px; left: 140px;">
-                <span>🎮</span>Игра.exe
-            </div>
-            <div class="desktop-icon" style="top: 100px; left: 80px;" onclick="wrongBugClick()">
-                <span>🖼️</span>Фото.png
-            </div>
-            <!-- Скрытый баг-жучок -->
-            <div id="secret-bug" onclick="checkStep4()">
-                🐛 ВИРУС-ЖУЧОК! (Кликни меня)
-            </div>
-        </div>
-        <div id="error-4" class="error" style="text-align: center;"></div>
-        <div class="text-muted" style="text-align: center;">Ищи мигающий красный объект внизу справа!</div>
-    </div>
-
-    <!-- ФИНИШ -->
-    <div id="step-5" class="step hidden" style="text-align: center;">
-        <h2>🎉 МИССИЯ УСПЕШНО ВЫПОЛНЕНА!</h2>
-        <p>Ты блестяще справился со всеми заданиями: расшифровал шифр, настроил ветвление, защитил систему паролем и поймал цифрового жучка!</p>
-        <div class="success-msg" style="font-size: 20px; margin: 20px 0;">Твой результат отправлен в штаб академии 🏆</div>
-        <p class="text-muted">Можешь гордиться собой, ты настоящий IT-детектив!</p>
-    </div>
-</div>
-
-<script>
-    // ⚠️ ЗАМЕНИТЕ ЭТУ СТРОКУ НА URL ВАШЕГО GOOGLE WEB APP СКРИПТА:
-    const GOOGLE_SCRIPT_URL = "ЗДЕСЬ_БУДЕТ_ВАШ_URL_ИЗ_APPS_SCRIPT";
-
-    let userName = "";
-    let startTime;
-    let currentStepNum = 0;
-
-    function updateProgress(stepNum) {
-        currentStepNum = stepNum;
-        for (let i = 0; i <= 5; i++) {
-            const dot = document.getElementById("dot-" + i);
-            if (dot) {
-                if (i <= stepNum) {
-                    dot.classList.add("active");
-                } else {
-                    dot.classList.remove("active");
+    <title>HTML для Детей: Весёлый Космос Кода! 🚀</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Fredoka for cartoon style -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        fredoka: ['Fredoka', 'sans-serif'],
+                    },
+                    colors: {
+                        cartoonYellow: '#FFDE59',
+                        cartoonBlue: '#00F0FF',
+                        cartoonPink: '#FF66C4',
+                        cartoonPurple: '#9B51E2',
+                        cartoonGreen: '#2ECC71',
+                    }
                 }
             }
         }
-    }
+    </script>
+    <style>
+        body {
+            font-family: 'Fredoka', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+        .bouncing {
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .pulse-btn {
+            transition: all 0.2s ease;
+        }
+        .pulse-btn:hover {
+            transform: scale(1.05);
+        }
+        .pulse-btn:active {
+            transform: scale(0.95);
+        }
+    </style>
+</head>
+<body class="text-slate-800 antialiased selection:bg-cartoonYellow selection:text-slate-900">
 
-    function sendStats(stepName) {
-        if (GOOGLE_SCRIPT_URL.includes("ЗДЕСЬ_БУДЕТ")) return;
-        
-        const elapsedTime = Math.floor((new Date() - startTime) / 1000);
-        const data = {
-            name: userName,
-            step: stepName,
-            time: elapsedTime + " сек"
+    <header class="bg-indigo-600 text-white shadow-lg sticky top-0 z-50 border-b-4 border-indigo-800">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <div class="w-14 h-14 bg-cartoonYellow rounded-2xl flex items-center justify-center text-3xl shadow-md bouncing border-2 border-amber-400">
+                    🤖
+                </div>
+                <div>
+                    <h1 class="text-2xl sm:text-3xl font-bold tracking-wide text-cartoonYellow drop-shadow-md">HTMLшка!</h1>
+                    <p class="text-xs sm:text-sm text-indigo-200">Учимся создавать сайты весело и легко!</p>
+                </div>
+            </div>
+            <!-- Navigation Menu -->
+            <nav class="flex flex-wrap justify-center gap-2 sm:gap-4 font-semibold text-sm sm:text-base">
+                <a href="#whatis" class="bg-indigo-700 hover:bg-indigo-500 px-3 py-2 rounded-xl transition shadow border-b-2 border-indigo-900 flex items-center gap-1">
+                    <span>💡</span> Что это?
+                </a>
+                <a href="#structure" class="bg-indigo-700 hover:bg-indigo-500 px-3 py-2 rounded-xl transition shadow border-b-2 border-indigo-900 flex items-center gap-1">
+                    <span>🏗️</span> Домик сайта
+                </a>
+                <a href="#tags" class="bg-indigo-700 hover:bg-indigo-500 px-3 py-2 rounded-xl transition shadow border-b-2 border-indigo-900 flex items-center gap-1">
+                    <span>🏷️</span> Теги
+                </a>
+                <a href="#sandbox" class="bg-cartoonYellow text-indigo-900 hover:bg-amber-300 px-4 py-2 rounded-xl transition shadow-lg border-b-4 border-amber-500 flex items-center gap-1 font-bold">
+                    <span>🎮</span> Песочница
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 py-8 space-y-16">
+        <section class="bg-gradient-to-r from-cartoonPink to-cartoonPurple text-white rounded-3xl p-6 sm:p-10 shadow-2xl relative overflow-hidden border-4 border-white">
+            <div class="absolute -right-10 -bottom-10 opacity-20 text-9xl">👾</div>
+            <div class="max-w-2xl relative z-10 space-y-4">
+                <span class="bg-white/20 text-cartoonYellow px-4 py-1.5 rounded-full text-sm font-bold uppercase tracking-wider inline-block">
+                    🌟 Привет, юный программист!
+                </span>
+                <h2 class="text-3xl sm:text-5xl font-bold leading-tight drop-shadow-md">
+                    Создай свой первый волшебный сайт! ✨
+                </h2>
+                <p class="text-base sm:text-lg text-pink-100">
+                    HTML — это секретный язык, на котором разговаривают все сайты в интернете. Готов стать настоящим волшебником кода? Тогда погнали! 🚀
+                </p>
+                <div class="pt-2 flex flex-wrap gap-4">
+                    <a href="#sandbox" class="bg-cartoonYellow text-slate-900 font-bold px-6 py-3 rounded-2xl shadow-lg pulse-btn border-b-4 border-amber-500 text-lg flex items-center gap-2">
+                        <span>🚀</span> Начать играть!
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="whatis" class="bg-white rounded-3xl p-6 sm:p-10 shadow-xl border-4 border-indigo-100">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-12 h-12 bg-cartoonBlue text-indigo-900 rounded-2xl flex items-center justify-center text-2xl font-bold shadow">
+                    💡
+                </div>
+                <div>
+                    <h3 class="text-2xl sm:text-3xl font-bold text-indigo-900">Что такое HTML?</h3>
+                    <p class="text-slate-500 text-sm">Основа любого сайта</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div class="space-y-4 text-slate-700 text-base sm:text-lg">
+                    <p>
+                        Представь, что сайт — это большой замок из <strong>Лего</strong> 🧱. 
+                    </p>
+                    <p>
+                        <strong>HTML</strong> (HyperText Markup Language) — это сами детальки лего! С их помощью мы решаем, где будет картинка 🖼️, где заголовок 👑, а где кнопочка для кликов 🖱️.
+                    </p>
+                    <div class="bg-blue-50 border-l-4 border-cartoonBlue p-4 rounded-r-2xl text-indigo-900 font-medium">
+                        🤖 <strong>Совет от робота:</strong> Всё в HTML состоит из <em>тегов</em>, которые пишутся в треугольных скобках: <code>&lt;тег&gt;</code>!
+                    </div>
+                </div>
+                <div class="bg-gradient-to-br from-indigo-50 to-blue-100 p-6 rounded-2xl border-2 border-indigo-200 flex flex-col items-center justify-center text-center space-y-4 shadow-inner">
+                    <div class="text-6xl bouncing">🏰</div>
+                    <h4 class="font-bold text-xl text-indigo-900">Сайт = Конструктор</h4>
+                    <p class="text-sm text-slate-600">Теги соединяются вместе, превращаясь в крутые веб-страницы!</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="structure" class="bg-white rounded-3xl p-6 sm:p-10 shadow-xl border-4 border-indigo-100">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-12 h-12 bg-cartoonPink text-white rounded-2xl flex items-center justify-center text-2xl font-bold shadow">
+                    🏗️
+                </div>
+                <div>
+                    <h3 class="text-2xl sm:text-3xl font-bold text-indigo-900">Из чего состоит документ? (Структура)</h3>
+                    <p class="text-slate-500 text-sm">Скелет веб-страницы</p>
+                </div>
+            </div>
+
+            <p class="text-slate-700 text-lg mb-6">
+                У каждого HTML-файла есть свой строгий порядок, как у робота: голова, туловище и подвал! 🤖
+            </p>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+                <!-- Head card -->
+                <div class="bg-pink-50 border-2 border-pink-200 p-6 rounded-2xl shadow-md flex flex-col justify-between">
+                    <div>
+                        <div class="text-3xl mb-2">🧠</div>
+                        <h4 class="font-bold text-xl text-pink-700 mb-2">&lt;head&gt; (Голова)</h4>
+                        <p class="text-sm text-slate-600 mb-4">Здесь живут настройки сайта, его имя (вкладка в браузере) и секретные инструкции.</p>
+                    </div>
+                    <code class="bg-white p-3 rounded-xl text-xs text-pink-800 font-mono block shadow-inner border border-pink-200">
+                        &lt;head&gt;<br>
+                        &nbsp;&nbsp;&lt;title&gt;Мой сайт&lt;/title&gt;<br>
+                        &lt;/head&gt;
+                    </code>
+                </div>
+
+                <!-- Body card -->
+                <div class="bg-yellow-50 border-2 border-amber-200 p-6 rounded-2xl shadow-md flex flex-col justify-between">
+                    <div>
+                        <div class="text-3xl mb-2">👕</div>
+                        <h4 class="font-bold text-xl text-amber-700 mb-2">&lt;body&gt; (Тело)</h4>
+                        <p class="text-sm text-slate-600 mb-4">Самое главное! Всё, что видит человек на экране: картинки, текст, кнопки и игры.</p>
+                    </div>
+                    <code class="bg-white p-3 rounded-xl text-xs text-amber-900 font-mono block shadow-inner border border-amber-200">
+                        &lt;body&gt;<br>
+                        &nbsp;&nbsp;&lt;h1&gt;Привет!&lt;/h1&gt;<br>
+                        &lt;/body&gt;
+                    </code>
+                </div>
+
+                <!-- Footer card -->
+                <div class="bg-purple-50 border-2 border-purple-200 p-6 rounded-2xl shadow-md flex flex-col justify-between">
+                    <div>
+                        <div class="text-3xl mb-2">👟</div>
+                        <h4 class="font-bold text-xl text-purple-700 mb-2">&lt;footer&gt; (Футер / Подвал)</h4>
+                        <p class="text-sm text-slate-600 mb-4">Находится в самом низу страницы. Там обычно пишут автора или копирайты.</p>
+                    </div>
+                    <code class="bg-white p-3 rounded-xl text-xs text-purple-900 font-mono block shadow-inner border border-purple-200">
+                        &lt;footer&gt;<br>
+                        &nbsp;&nbsp;© 2026 Мой сайт<br>
+                        &lt;/footer&gt;
+                    </code>
+                </div>
+            </div>
+
+            <!-- Complete Skeleton Code Example -->
+            <div class="bg-slate-950 text-slate-100 p-6 rounded-2xl shadow-inner font-mono text-xs sm:text-sm overflow-x-auto border-2 border-slate-800">
+                <div class="flex items-center justify-between pb-3 mb-3 border-b border-slate-800 text-slate-400">
+                    <span class="flex items-center gap-2">
+                        <i class="fa-solid fa-code text-cartoonYellow"></i> Полный скелет сайта (шаблон)
+                    </span>
+                    <span class="text-xs bg-slate-800 px-2 py-1 rounded text-cartoonYellow">index.html</span>
+                </div>
+                <pre><span class="text-cyan-400">&lt;!DOCTYPE html&gt;</span>
+<span class="text-purple-400">&lt;html lang=&quot;ru&quot;&gt;</span>
+  <span class="text-purple-400">&lt;head&gt;</span>
+    <span class="text-pink-400">&lt;meta charset=&quot;UTF-8&quot;&gt;</span>
+    <span class="text-pink-400">&lt;title&gt;</span>Моя первая страница<span class="text-pink-400">&lt;/title&gt;</span>
+  <span class="text-purple-400">&lt;/head&gt;</span>
+  <span class="text-purple-400">&lt;body&gt;</span>
+    <span class="text-yellow-300">&lt;header&gt;</span>Шапка сайта<span class="text-yellow-300">&lt;/header&gt;</span>
+    <span class="text-blue-300">&lt;main&gt;</span>Главная информация и картинки<span class="text-blue-300">&lt;/main&gt;</span>
+    <span class="text-green-300">&lt;footer&gt;</span>Подвал сайта<span class="text-green-300">&lt;/footer&gt;</span>
+  <span class="text-purple-400">&lt;/body&gt;</span>
+<span class="text-purple-400">&lt;/html&gt;</span></pre>
+            </div>
+        </section>
+
+        <section id="tags" class="bg-white rounded-3xl p-6 sm:p-10 shadow-xl border-4 border-indigo-100">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-12 h-12 bg-cartoonYellow text-indigo-900 rounded-2xl flex items-center justify-center text-2xl font-bold shadow">
+                    🏷️
+                </div>
+                <div>
+                    <h3 class="text-2xl sm:text-3xl font-bold text-indigo-900">Основные теги HTML</h3>
+                    <p class="text-slate-500 text-sm">Инструменты юного волшебника</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Tag 1: Headings -->
+                <div class="bg-amber-50/50 border-2 border-amber-200 rounded-2xl p-5 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <span class="bg-amber-200 text-amber-900 text-xs font-bold px-2.5 py-1 rounded-lg">Заголовки</span>
+                        <h4 class="text-lg font-bold text-amber-900 mt-2">&lt;h1&gt; до &lt;h6&gt;</h4>
+                        <p class="text-sm text-slate-600 mt-1">Делают текст крупным и заметным, как название книги или комикса.</p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-amber-200 bg-white p-3 rounded-xl font-mono text-xs text-slate-700">
+                        &lt;h1&gt;Я главный заголовок!&lt;/h1&gt;
+                    </div>
+                </div>
+
+                <!-- Tag 2: Paragraph -->
+                <div class="bg-blue-50/50 border-2 border-blue-200 rounded-2xl p-5 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <span class="bg-blue-200 text-blue-900 text-xs font-bold px-2.5 py-1 rounded-lg">Абзац</span>
+                        <h4 class="text-lg font-bold text-blue-900 mt-2">&lt;p&gt;</h4>
+                        <p class="text-sm text-slate-600 mt-1">Обычный текст для сказок, рассказов и описаний на сайте.</p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-blue-200 bg-white p-3 rounded-xl font-mono text-xs text-slate-700">
+                        &lt;p&gt;Привет! Я обычный абзац текста.&lt;/p&gt;
+                    </div>
+                </div>
+
+                <!-- Tag 3: Image -->
+                <div class="bg-pink-50/50 border-2 border-pink-200 rounded-2xl p-5 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <span class="bg-pink-200 text-pink-900 text-xs font-bold px-2.5 py-1 rounded-lg">Картинка</span>
+                        <h4 class="text-lg font-bold text-pink-900 mt-2">&lt;img&gt;</h4>
+                        <p class="text-sm text-slate-600 mt-1">Вставляет крутые картинки и фотографии на страницу.</p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-pink-200 bg-white p-3 rounded-xl font-mono text-xs text-slate-700">
+                        &lt;img src="cat.jpg" alt="Кот"&gt;
+                    </div>
+                </div>
+
+                <!-- Tag 4: Link -->
+                <div class="bg-green-50/50 border-2 border-green-200 rounded-2xl p-5 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <span class="bg-green-200 text-green-900 text-xs font-bold px-2.5 py-1 rounded-lg">Ссылка</span>
+                        <h4 class="text-lg font-bold text-green-900 mt-2">&lt;a&gt;</h4>
+                        <p class="text-sm text-slate-600 mt-1">Позволяет телепортироваться на другие сайты или страницы.</p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-green-200 bg-white p-3 rounded-xl font-mono text-xs text-slate-700">
+                        &lt;a href="https://google.com"&gt;Я ссылка&lt;/a&gt;
+                    </div>
+                </div>
+
+                <!-- Tag 5: Lists -->
+                <div class="bg-purple-50/50 border-2 border-purple-200 rounded-2xl p-5 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <span class="bg-purple-200 text-purple-900 text-xs font-bold px-2.5 py-1 rounded-lg">Списки</span>
+                        <h4 class="text-lg font-bold text-purple-900 mt-2">&lt;ul&gt; и &lt;li&gt;</h4>
+                        <p class="text-sm text-slate-600 mt-1">Идеально для списков покупок, желаний или задач.</p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-purple-200 bg-white p-3 rounded-xl font-mono text-xs text-slate-700">
+                        &lt;ul&gt;&lt;li&gt;Элемент списка&lt;/li&gt;&lt;/ul&gt;
+                    </div>
+                </div>
+
+                <!-- Tag 6: Button -->
+                <div class="bg-indigo-50/50 border-2 border-indigo-200 rounded-2xl p-5 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <span class="bg-indigo-200 text-indigo-900 text-xs font-bold px-2.5 py-1 rounded-lg">Кнопка</span>
+                        <h4 class="text-lg font-bold text-indigo-900 mt-2">&lt;button&gt;</h4>
+                        <p class="text-sm text-slate-600 mt-1">Интерактивная кнопка, на которую можно нажимать!</p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-indigo-200 bg-white p-3 rounded-xl font-mono text-xs text-slate-700">
+                        &lt;button&gt;Нажми меня!&lt;/button&gt;
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="sandbox" class="bg-gradient-to-br from-indigo-900 to-slate-900 text-white rounded-3xl p-6 sm:p-10 shadow-2xl border-4 border-cartoonYellow">
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+                <div>
+                    <span class="bg-cartoonYellow text-indigo-950 font-bold px-3 py-1 rounded-full text-xs uppercase tracking-wider inline-block mb-2">
+                        🎮 Живая Песочница
+                    </span>
+                    <h3 class="text-2xl sm:text-3xl font-bold text-cartoonYellow">Пиши код и смотри результат!</h3>
+                    <p class="text-slate-300 text-sm">Изменяй текст слева — результат появится справа мгновенно.</p>
+                </div>
+                <!-- Quick Template Buttons -->
+                <div class="flex flex-wrap gap-2">
+                    <button onclick="loadTemplate('greeting')" class="bg-indigo-700 hover:bg-indigo-600 px-3 py-1.5 rounded-xl text-xs font-semibold transition border border-indigo-500">
+                        👋 Приветствие
+                    </button>
+                    <button onclick="loadTemplate('card')" class="bg-indigo-700 hover:bg-indigo-600 px-3 py-1.5 rounded-xl text-xs font-semibold transition border border-indigo-500">
+                        🐱 Карточка с котом
+                    </button>
+                    <button onclick="loadTemplate('button')" class="bg-indigo-700 hover:bg-indigo-600 px-3 py-1.5 rounded-xl text-xs font-semibold transition border border-indigo-500">
+                        ✨ Кнопка
+                    </button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Editor Pane -->
+                <div class="flex flex-col space-y-2">
+                    <div class="flex items-center justify-between text-xs text-slate-400 font-mono px-1">
+                        <span>✏️ Твой HTML-код:</span>
+                        <span>Редактируй прямо здесь</span>
+                    </div>
+                    <textarea id="codeInput" class="w-full h-72 sm:h-80 bg-slate-950 text-cartoonYellow font-mono text-sm p-4 rounded-2xl border-2 border-indigo-700 focus:outline-none focus:border-cartoonYellow shadow-inner resize-none leading-relaxed" spellcheck="false" oninput="updatePreview()">&lt;h1 style="color: #FF66C4;"&gt;Привет, я кодинг-мастер! 🚀&lt;/h1&gt;
+&lt;p&gt;Я сам написал этот текст с помощью HTML!&lt;/p&gt;
+&lt;img src="https://placehold.co/250x150/FFDE59/1e1b4b?text=Awesome+Cat" alt="Кот" style="border-radius: 12px; margin: 10px 0;"&gt;
+&lt;br&gt;
+&lt;button onclick="alert('Ура! Кнопка работает!')" style="background: #00F0FF; color: #000; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer;"&gt;Кликни меня! 🎁&lt;/button&gt;</textarea>
+                    <button onclick="updatePreview()" class="bg-cartoonYellow text-slate-900 font-bold py-3 rounded-2xl shadow-lg hover:bg-amber-300 transition flex items-center justify-center gap-2 border-b-4 border-amber-500">
+                        <span>🔄</span> Обновить результат
+                    </button>
+                </div>
+
+                <!-- Preview Pane -->
+                <div class="flex flex-col space-y-2">
+                    <div class="flex items-center justify-between text-xs text-slate-400 font-mono px-1">
+                        <span>📺 Что увидит браузер:</span>
+                        <span class="text-emerald-400 flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Онлайн</span>
+                    </div>
+                    <div class="w-full h-72 sm:h-80 bg-white text-slate-800 p-4 rounded-2xl border-2 border-indigo-700 shadow-inner overflow-auto relative flex flex-col justify-start">
+                        <iframe id="previewFrame" class="w-full h-full border-0"></iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-3xl p-6 sm:p-10 shadow-xl border-4 border-indigo-100">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-12 h-12 bg-cartoonGreen text-white rounded-2xl flex items-center justify-center text-2xl font-bold shadow">
+                    🧠
+                </div>
+                <div>
+                    <h3 class="text-2xl sm:text-3xl font-bold text-indigo-900">Проверь себя! (Мини-викторина)</h3>
+                    <p class="text-slate-500 text-sm">Закрепи знания и получи медаль</p>
+                </div>
+            </div>
+
+            <div id="quizContainer" class="bg-emerald-50 border-2 border-emerald-200 p-6 rounded-2xl space-y-4">
+                <h4 id="quizQuestion" class="font-bold text-lg text-emerald-900">Вопрос 1: Какой тег отвечает за создание заголовка?</h4>
+                <div id="quizOptions" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <button onclick="checkAnswer(0)" class="bg-white hover:bg-emerald-100 text-emerald-900 font-medium p-3 rounded-xl border border-emerald-300 transition text-left shadow-sm">&lt;p&gt;</button>
+                    <button onclick="checkAnswer(1)" class="bg-white hover:bg-emerald-100 text-emerald-900 font-medium p-3 rounded-xl border border-emerald-300 transition text-left shadow-sm">&lt;h1&gt;</button>
+                    <button onclick="checkAnswer(2)" class="bg-white hover:bg-emerald-100 text-emerald-900 font-medium p-3 rounded-xl border border-emerald-300 transition text-left shadow-sm">&lt;img&gt;</button>
+                    <button onclick="checkAnswer(3)" class="bg-white hover:bg-emerald-100 text-emerald-900 font-medium p-3 rounded-xl border border-emerald-300 transition text-left shadow-sm">&lt;body&gt;</button>
+                </div>
+                <div id="quizFeedback" class="font-bold text-sm min-h-[1.5rem]"></div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-indigo-950 text-white mt-20 border-t-4 border-indigo-800">
+        <div class="max-w-6xl mx-auto px-4 py-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-cartoonYellow rounded-xl flex items-center justify-center text-xl shadow">
+                    🤖
+                </div>
+                <div>
+                    <h5 class="font-bold text-cartoonYellow">HTMLшка</h5>
+                    <p class="text-xs text-indigo-300">Создано с любовью для будущих гениев IT! ❤️</p>
+                </div>
+            </div>
+            <div class="text-xs text-indigo-400">
+                &copy; 2026 Увлекательное программирование для детей. Все права защищены.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Sandbox code update logic
+        function updatePreview() {
+            const code = document.getElementById('codeInput').value;
+            const iframe = document.getElementById('previewFrame');
+            const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+            iframeDoc.open();
+            iframeDoc.write(code);
+            iframeDoc.close();
+        }
+
+        // Templates loader
+        function loadTemplate(type) {
+            const area = document.getElementById('codeInput');
+            if (type === 'greeting') {
+                area.value = '<h1 style="color: #9B51E2;">Привет! 👋</h1>\n<p>Добро пожаловать на мой сайт!</p>';
+            } else if (type === 'card') {
+                area.value = '<div style="background: #fdf2f8; padding: 15px; border-radius: 12px; border: 2px solid #f472b6;">\n  <h2 style="color: #db2777; margin-top:0;">Мой питомец 🐱</h2>\n  <p>Это самый милый котик в мире!</p>\n  <img src="https://placehold.co/200x120/FF66C4/fff?text=Cute+Cat" style="border-radius: 8px;">\n</div>';
+            } else if (type === 'button') {
+                area.value = '<h2 style="color: #2563eb;">Интерактив</h2>\n<button onclick="alert(\'Привет от робота!\')" style="background: #22c55e; color: white; border: none; padding: 12px 24px; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer;">Нажми на меня! 🚀</button>';
+            }
+            updatePreview();
+        }
+
+        // Quiz Logic
+        const quizData = [
+            {
+                q: "Вопрос 1: Какой тег отвечает за создание заголовка?",
+                options: ["<p>", "<h1>", "<img>", "<body>"],
+                correct: 1
+            },
+            {
+                q: "Вопрос 2: Где пишется всё, что видит человек на экране сайта?",
+                options: ["<head>", "<title>", "<body>", "<footer>"],
+                correct: 2
+            },
+            {
+                q: "Вопрос 3: Какой тег используют для вставки картинки?",
+                options: ["<img>", "<pic>", "<image>", "<photo>"],
+                correct: 0
+            }
+        ];
+
+        let currentQuestion = 0;
+
+        function checkAnswer(selectedIndex) {
+            const feedback = document.getElementById('quizFeedback');
+            const q = quizData[currentQuestion];
+            
+            if (selectedIndex === q.correct) {
+                feedback.innerHTML = '<span class="text-emerald-700">🎉 Правильно! Ты молодец! Переходим к следующему вопросу...</span>';
+                currentQuestion++;
+                setTimeout(() => {
+                    if (currentQuestion < quizData.length) {
+                        loadQuizQuestion();
+                    } else {
+                        document.getElementById('quizContainer').innerHTML = `
+                            <div class="text-center py-6 space-y-3">
+                                <div class="text-5xl">🏆</div>
+                                <h4 class="font-bold text-2xl text-emerald-900">Ура! Ты прошёл викторину!</h4>
+                                <p class="text-emerald-700">Ты получаешь звание Повелителя HTML тегов! 🌟</p>
+                                <button onclick="resetQuiz()" class="bg-emerald-600 text-white font-bold px-5 py-2 rounded-xl shadow mt-2">Пройти снова</button>
+                            </div>
+                        `;
+                    }
+                }, 1500);
+            } else {
+                feedback.innerHTML = '<span class="text-rose-600">❌ Неправильно, попробуй ещё раз! Подсказка: поищи на странице.</span>';
+            }
+        }
+
+        function loadQuizQuestion() {
+            const q = quizData[currentQuestion];
+            document.getElementById('quizQuestion').innerText = q.q;
+            const optionsContainer = document.getElementById('quizOptions');
+            optionsContainer.innerHTML = '';
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'bg-white hover:bg-emerald-100 text-emerald-900 font-medium p-3 rounded-xl border border-emerald-300 transition text-left shadow-sm';
+                btn.innerText = opt;
+                btn.onclick = () => checkAnswer(idx);
+                optionsContainer.appendChild(btn);
+            });
+            document.getElementById('quizFeedback').innerText = '';
+        }
+
+        function resetQuiz() {
+            currentQuestion = 0;
+            document.getElementById('quizContainer').innerHTML = `
+                <h4 id="quizQuestion" class="font-bold text-lg text-emerald-900"></h4>
+                <div id="quizOptions" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
+                <div id="quizFeedback" class="font-bold text-sm min-h-[1.5rem]"></div>
+            `;
+            loadQuizQuestion();
+        }
+
+        // Initialize preview and quiz on load
+        window.onload = function() {
+            updatePreview();
+            loadQuizQuestion();
         };
-
-        fetch(GOOGLE_SCRIPT_URL, {
-            method: "POST",
-            mode: "no-cors",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data)
-        }).catch(err => console.log(err));
-    }
-
-    function startQuest() {
-        const input = document.getElementById("username");
-        userName = input.value.trim();
-        if (userName === "") {
-            document.getElementById("error-0").textContent = "Пожалуйста, введите имя агента!";
-            return;
-        }
-        startTime = new Date();
-        
-        document.getElementById("step-0").classList.add("hidden");
-        document.getElementById("step-1").classList.remove("hidden");
-        updateProgress(1);
-        sendStats("Этап 1: Старт (Шифр)");
-    }
-
-    // Этап 1: Шифр ("ДРУЖОК" со сдвигом -> "ГОСТИК" или заменяем на более простое или принимаем "ГРУЖОК")
-    // В условии написано: Д->Г, Р->П, У->Т, Ж->Ё, О->Н, К->И => получается слово "ГРУЖОК"
-    function checkStep1() {
-        const val = document.getElementById("answer-1").value.trim().toUpperCase();
-        const err = document.getElementById("error-1");
-        
-        if (val === "РОБИК") {
-            err.textContent = "";
-            document.getElementById("step-1").classList.add("hidden");
-            document.getElementById("step-2").classList.remove("hidden");
-            updateProgress(2);
-            sendStats("Этап 2: Ветвление");
-        } else {
-            err.textContent = "Неверно! Попробуй сдвинуть каждую букву алфавита на шаг назад.";
-        }
-    }
-
-    // Этап 2: Ветвление
-    function chooseBranch(isCorrect) {
-        const err = document.getElementById("error-2");
-        if (isCorrect) {
-            err.textContent = "";
-            document.getElementById("step-2").classList.add("hidden");
-            document.getElementById("step-3").classList.remove("hidden");
-            updateProgress(3);
-            sendStats("Этап 3: Безопасность (Пароли)");
-        } else {
-            err.textContent = "Ошибка робота! Условие батареи и зеленого света ведет в другое место. Попробуй другой путь.";
-        }
-    }
-
-    // Этап 3: Пароль (минимум 6 символов, есть хотя бы одна цифра)
-    function checkStep3() {
-        const val = document.getElementById("answer-3").value.trim();
-        const err = document.getElementById("error-3");
-        
-        const hasNumber = /\d/.test(val);
-        const longEnough = val.length >= 6;
-        
-        if (longEnough && hasNumber) {
-            err.textContent = "";
-            document.getElementById("step-3").classList.add("hidden");
-            document.getElementById("step-4").classList.remove("hidden");
-            updateProgress(4);
-            sendStats("Этап 4: Поиск бага");
-        } else {
-            err.textContent = "Пароль слишком простой или короткий! Сделай длину от 6 символов и добавь хотя бы одну цифру.";
-        }
-    }
-
-    // Этап 4: Клик не туда
-    function wrongBugClick() {
-        document.getElementById("error-4").textContent = "Здесь чисто! Ищи жучка в правом нижнем углу экрана.";
-    }
-
-    // Этап 4: Победа (клик по жучку)
-    function checkStep4() {
-        document.getElementById("step-4").classList.add("hidden");
-        document.getElementById("step-5").classList.remove("hidden");
-        updateProgress(5);
-        sendStats("ФИНИШ (Победа!)");
-    }
-</script>
-
+    </script>
 </body>
 </html>
